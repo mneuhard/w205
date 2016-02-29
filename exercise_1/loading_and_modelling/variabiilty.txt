@@ -1,0 +1,18 @@
+Variability Results:
+Procedure	Variability
+ED2     1132
+ED1     1106
+OP 18   399
+Median Time to Transfer to Another Facility for Acute Coronary Intervention     200
+Median time to pain med 170
+Door to diagnostic eval 143
+Median Time to ECG      142
+Warfarin therapy discharge instructions 100
+Thrombolytic Therapy    100
+Surgery Patients Who Received Appropriate Venous Thromboembolism Prophylaxis Within 24 Hours Prior to Surgery to 24 Hours After Surgery      100
+
+Query Run:
+select mname, (sq.pmMax-sq.pmMin) as pmDiff from (select pm.measurename mname, min(pm.measureScore) as pmMin, max(pm.measureScore) as pmMax from procedureMeasures pm where  pm.measureScore is not NULL group by pm.measurename order by pmMax DESC) sq order by pmDiff Desc limit 10;
+
+Conclusion:
+The best choice for variability was range since we assume that each procedure is weighted the same (i.e. a life or death situation is equal to a regular procedure).  For the variability measure we did not have to look at the actual hospital, we were looking for variability across hospitals.  So a simple range of the max vs the min gives us the greated variability across procedures.    There is some very large variability in some procedures, we looked at the Data Dictionary to see if there was a range defined and could not find one, which meant we had to trust the data, although it does look like there could be some outliers.

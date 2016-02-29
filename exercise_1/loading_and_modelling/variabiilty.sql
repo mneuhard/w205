@@ -1,0 +1,1 @@
+select mname, (sq.pmMax-sq.pmMin) as pmDiff from (select pm.measurename mname, min(pm.measureScore) as pmMin, max(pm.measureScore) as pmMax from procedureMeasures pm where  pm.measureScore is not NULL group by pm.measurename order by pmMax DESC) sq order by pmDiff Desc limit 10;

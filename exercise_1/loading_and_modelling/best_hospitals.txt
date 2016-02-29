@@ -1,0 +1,19 @@
+Best Hospitals Result:
+450348  FALLS COMMUNITY HOSPITAL AND CLINIC     235.58333333333334
+51335   BEAR VALLEY COMMUNITY HOSPITAL  175.33333333333334
+400079  HOSP COMUNITARIO BUEN SAMARITANO        175.13333333333333
+310002  NEWARK BETH ISRAEL MEDICAL CENTER       138.40540540540542
+451330  MEDINA REGIONAL HOSPITAL        136.0
+400032  HOSPITAL HERMANOS MELENDEZ INC  135.27777777777777
+400013  HOSPITAL MENONITA DE CAYEY      133.2
+51318   REDWOOD MEMORIAL HOSPITAL       130.33333333333334
+261317  MERCY HOSPITAL CASSVILLE        128.0
+330202  KINGS COUNTY HOSPITAL CENTER    126.125
+
+Best Hospital Query:
+select p.pid, pname, avg(pm.measureScore) as pmAvg from providers p, procedureMeasures pm where p.pid = pm.pid and pm.measureScore is not NULL group by p.pid, pname order by pmAvg DESC LIMIT 10;
+
+Conclusion:
+The best hospitals are those with the highest average score for a variety of procedures.  For this analysis we took all procedures as equally weighted (i.e a life or death situation is equal to a routine procedure.).  Given this assumption and removing all NULL values, the average score accross procedures gives an acurate picture of the highest quality hospitals.
+
+

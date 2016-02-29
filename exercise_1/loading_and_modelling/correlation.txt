@@ -1,0 +1,14 @@
+Correlation between PM Scores and Surveys.
+Results: -0.03226560033503016
+
+Query Run:
+select (avg(X*Y) - avg(X) * avg(Y)) /(avg(stdX) * avg(stdY)) as procedurescorrelation from (select pid, measureScore as Y, avgY, stdY from procedureMeasures, (select avg(y.mS) as avgY, stddev_pop(mS) as stdY from (select pid, pm.measureScore as mS from procedureMeasures pm where pm.measureScore is not NULL) y) yA where measureScore is not NULL) mY, (select pid, hbScore as X, avgX, stdX from survey, (select  avg (x.hbScore) as avgX, stddev_pop(x.hbScore) as stdX from (select pid, hbScore from survey where hbScore is not NULL) x) xA where hbScore is not NULL) sX where sX.pid = mY.pid;
+
+Correlation between Variability and Surveys;:
+Result: -0.36203872623890443
+
+Query Run:
+select (avg(X*Y) - avg(X) * avg(Y)) /(avg(stdX) * avg(stdY)) as variabilitycorrelation from (select pid, (max(measureScore) - min(measureScore)) as Y, avgY, stdY from procedureMeasures, (select avg(pmDiff) as avgY, stddev_pop(pmDiff) as stdY from (select pid, (max(measureScore) - min(measureScore)) as pmDiff from procedureMeasures where measureScore is not NULL group by pid) y) yA where measureScore is not NULL group by pid, stdY, avgY) mY, (select pid, hbScore as X, avgX, stdX from survey, (select  avg (x.hbScore) as avgX, stddev_pop(x.hbScore) as stdX from (select pid, hbScore from survey where hbScore is not NULL) x) xA where hbScore is not NULL) sX where sX.pid = mY.pid;
+
+Conclusion:
+There is a correlation between both the Survey and the Procedure Scores as well as the Survey and the Variability.  Both have a negative correlation, which in the case of variability would meet what we would expect.  If there is large variability, you would expect the survey average to go down, meaning that hospital does not provide quality care as a correlation value of -.36.  However, the results from the Procedure Scores have a negative correlation also (although a very weak correlation), which is counter intuitive to what we would think.  It would seem to reason that a higher average procedure score would lead to a higher average survey score.  Our results show that is not the case as a correlation value of -.032.  

@@ -1,0 +1,17 @@
+Best States:
+DC      103.82608695652173
+DE      102.72192513368984
+MD      102.2673501577287
+NY      98.9078423566879
+NJ      98.44444444444444
+NV      97.70617283950617
+NH      97.6068515497553
+CT      97.39759036144578
+CA      97.27873303167421
+MA      96.83146666666667
+
+Query Run:
+select pstate, avg(pm.measureScore) as pmAvg from providers p, procedureMeasures pm where p.pid = pm.pid and pm.measureScore is not NULL group by pstate  order by pmAvg DESC LIMIT 10;
+
+Conclusion:
+The best states are those with the highest average score for a variety of procedures.  For this analysis we took all procedures as equally weighted (i.e a life or death situation is equal to a routine procedure.).  Given this assumption and removing all NULL values, the average score accross procedures gives an acurate picture of the highest quality states.
